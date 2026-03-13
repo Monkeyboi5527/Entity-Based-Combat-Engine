@@ -3,14 +3,14 @@ package EntityBasedCombatEngine.entity;
 
 public class Entity {
 
-    private static String name;
-    private static int health;
-    private static int attackDamage;
+    private String name;
+    private int health;
+    private int attackDamage;
 
     public Entity(String name, int health, int attackDamage) {
-        Entity.name = name;
-        Entity.health = health;
-        Entity.attackDamage = attackDamage;
+        this.name = name;
+        this.health = health;
+        this.attackDamage = attackDamage;
     }
 
     public void takeDamage(int damage) {
