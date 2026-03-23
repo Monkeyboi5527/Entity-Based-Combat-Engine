@@ -7,30 +7,16 @@ package EntityBasedCombatEngine.entity;
 public class Entity implements Component {
 
     // Not Static so the variables don't share
-    private String name;
-    private int health;
-    private int attackDamage;
+    protected String name;
+    protected int health;
+    protected int attackDamage;
+    EntityType entityType;
 
-    public Entity(String name, int health, int attackDamage) {
+    public Entity(String name, int health, int attackDamage, EntityType entityType) {
         this.name = name;
         this.health = health;
         this.attackDamage = attackDamage;
-    }
-
-    public void takeDamage(int damage) {
-        health = health - damage;
-        if (health <= 0) {
-            IO.println("Player " + name + " is dead");
-            IO.println("\uD83D\uDC80DEFEAT\uD83D\uDC80");
-        }
-    }
-
-    public void heal(int heal) {
-        health = health + heal;
-    }
-
-    public boolean isAlive() {
-        return health > 0;
+        this.entityType = entityType;
     }
 
     // Getters and Display
@@ -56,5 +42,28 @@ public class Entity implements Component {
     @Override
     public void test() {
         System.out.println("test component");
+    }
+
+    @Override
+    public void heal(int amount) {
+        health = health + amount;
+    }
+
+    @Override
+    public void takeDamage(int damage) {
+        health = health - damage;
+        if (health <= 0) {
+            IO.println(name + " is dead");
+        }
+    }
+
+    @Override
+    public boolean isAlive() {
+        return health > 0;
+    }
+
+    @Override
+    public EntityType getEntityType() {
+        return entityType;
     }
 }

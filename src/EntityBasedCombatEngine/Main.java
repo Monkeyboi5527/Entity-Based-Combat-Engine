@@ -1,3 +1,4 @@
+import EntityBasedCombatEngine.entity.EntityType;
 import EntityBasedCombatEngine.entity.TestPlayer;
 /**
  *  Game Function <p>
@@ -13,7 +14,9 @@ import EntityBasedCombatEngine.entity.TestPlayer;
 void main() {
 
     // *TESTING*
-    TestPlayer testPlayer = new TestPlayer("testplayer", 100, 15);
-    testPlayer.test();
+    TestPlayer testPlayer = new TestPlayer("testplayer", 100, 15, EntityType.PLAYER);
+    if (testPlayer.getEntityType() == EntityType.PLAYER) {
+        IO.println("Player");
+    }
 }
 
