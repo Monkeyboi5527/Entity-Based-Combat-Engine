@@ -11,8 +11,8 @@ public class TestPlayer extends Entity {
     public void takeDamage(int damage) {
         health = health - damage;
         if (health <= 0) {
-            IO.println("Player " + name + " is dead");
-            IO.println("\uD83D\uDC80DEFEAT\uD83D\uDC80");
+            System.out.println("Player " + name + " is dead");
+            System.out.println("\uD83D\uDC80DEFEAT\uD83D\uDC80");
         }
     }
 }
