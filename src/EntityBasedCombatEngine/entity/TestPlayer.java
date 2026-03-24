@@ -3,8 +3,8 @@ package EntityBasedCombatEngine.entity;
 public class TestPlayer extends Entity {
 
 
-    public TestPlayer(String name, int health, int attackDamage, EntityType type) {
-        super(name, health, attackDamage, type);
+    public TestPlayer(String name, int health, int attackDamage, EntityType entityType) {
+        super(name, health, attackDamage, entityType);
     }
 
     @Override
