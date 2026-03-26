@@ -1,5 +1,8 @@
 package EntityBasedCombatEngine.entity;
 
+import java.util.Random;
+import java.util.Scanner;
+
 /**
  * Interface that all components implement.
  */
@@ -11,4 +14,6 @@ public interface Component {
         void takeDamage(int damage);
         boolean isAlive();
         EntityType getEntityType();
+        int choice(Scanner scanner);
+        int action(Random random);
 }
