@@ -21,7 +21,6 @@ public class CombatEngine {
     TestPlayer player;
     TestAlly ally;
     Entity enemy;
-    Entity enemy2;
     Entity boss;
 
     Random random = new Random();
@@ -90,24 +89,33 @@ public class CombatEngine {
                // Sorts into player and enemy teams
                 if (entity.getEntityType() == EntityType.PLAYER || entity.getEntityType() == EntityType.ALLY) {
                     playerTeam.add(entity);
+                    if (entity.getEntityType() == EntityType.PLAYER) {
+                        player = (TestPlayer) entity;
+                    } else ally = (TestAlly) entity;
                     System.out.println("*TESTING* (startCombat) " + entity.getName() + " added!");
                 } else if (entity.getEntityType() == EntityType.ENEMY || entity.getEntityType() == EntityType.BOSS) {
                     enemyTeam.add(entity);
+                    if (entity.getEntityType() == EntityType.ENEMY) {
+                        enemy = entity;
+                    } else boss = entity;
                     System.out.println("*TESTING* (startCombat) " + entity.getName() + " added!");
                 }
             }
 
             // PLAYER TEAM TURN
             // Player:
-            if (playerTeam.getFirst().getEntityType() == EntityType.PLAYER){
-                player.choice(scanner);
-                if (player.choice(scanner) == 1){
-                    enemyTeam.getFirst().takeDamage(player.getAttackDamage());
+            while (player.isAlive()){
+                if (playerTeam.getFirst().getEntityType() == EntityType.PLAYER){
+                    player.choice(scanner);
+                    if (player.choice(scanner) == 1){
+                        enemyTeam.getFirst().takeDamage(player.getAttackDamage());
+                    }
+                } else {
+                    // Ally:
+                    ally.action(random);
                 }
-            } else {
-              // Ally:
-                ally.action(random);
             }
+
 
         } while (combatCondition(entities));
     }
