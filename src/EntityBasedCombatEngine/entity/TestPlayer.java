@@ -26,6 +26,8 @@ public class TestPlayer extends Entity {
 
     @Override
     public int choice(Scanner scanner) {
+
+
         System.out.println( "Player " + name + "'s turn");
         // Only Coded for combat right now
         System.out.println("1. Attack");

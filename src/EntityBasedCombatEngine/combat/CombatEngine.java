@@ -50,19 +50,24 @@ public class CombatEngine {
         System.out.println("*TESTING* Sorting complete! Players: " + playerTeam.size() + " | Enemies: " + enemyTeam.size());
 
             // Checks each entity on player team
-            for (Entity playerTeamEntity : playerTeam){
-                teamSize = playerTeam.size();
-                System.out.println("*TESTING* " + "Counter(before isAlive check(player)): " + counter);
-                System.out.println("*TESTING* " + "Checking: " + playerTeamEntity.getName());
-                if (!playerTeamEntity.isAlive()){
-                    counter++;
-                    System.out.println("*TESTING* " + "Counter(after isAlive check(player)): " + counter);
-                    if (counter == teamSize){
-                        System.out.println("PLAYER TEAM DEAD");
-                        return false;
-                    }
-                }
-            }
+        // Might not need this cause if player dead then game over
+//            for (Entity playerTeamEntity : playerTeam){
+//                teamSize = playerTeam.size();
+//                System.out.println("*TESTING* " + "Counter(before isAlive check(player)): " + counter);
+//                System.out.println("*TESTING* " + "Checking: " + playerTeamEntity.getName());
+//                if (!playerTeamEntity.isAlive()){
+//                    counter++;
+//                    System.out.println("*TESTING* " + "Counter(after isAlive check(player)): " + counter);
+//                    if (counter == teamSize){
+//                        System.out.println("PLAYER TEAM DEAD");
+//                        return false;
+//                    }
+//                }
+//            }
+
+        if (!player.isAlive()){
+            return false;
+        }
 
             // Checks each entity on enemy team
             for (Entity enemyTeamEntity : enemyTeam){
@@ -102,22 +107,75 @@ public class CombatEngine {
                 }
             }
 
-            // PLAYER TEAM TURN
-            // Player:
-            while (player.isAlive()){
-                if (playerTeam.getFirst().getEntityType() == EntityType.PLAYER){
-                    player.choice(scanner);
-                    if (player.choice(scanner) == 1){
-                        enemyTeam.getFirst().takeDamage(player.getAttackDamage());
-                    }
-                } else {
-                    // Ally:
-                    ally.action(random);
-                }
-            }
+
+
+            System.out.println("*TESTING* KILLING PLAYER");
+            player.takeDamage(10000);
 
 
         } while (combatCondition(entities));
     }
 
+    public void choice(Scanner scanner) {
+        System.out.println("Player " + player.getName()  + "'s turn");
+        System.out.println("1. Attack");
+        System.out.println("2. Heal(2 Uses Max)");
+
+        switch (scanner.nextInt()) {
+                case 1: {
+                    System.out.println("Player " + player.getName() + " attacks " + enemyTeam.getFirst().getName() + "!");
+                    enemyTeam.getFirst().takeDamage(player.getAttackDamage());
+                    System.out.println( enemyTeam.getFirst().getName() + " health: " + enemyTeam.getFirst().getHealth());
+                    break;
+                }
+                case 2: {
+                    if (player.healCounter > 2){
+                        System.out.println("Out of Heals!");
+                        break;
+                    }
+                    System.out.println("Player " + player.getName() + " Heals!");
+                    player.heal(20);
+                    player.healCounter++;
+                    System.out.println("Player " + player.getName() + " Health: " + player.getHealth());
+                    break;
+                }
+                case 3: {
+                    System.out.println("*TESTING* KILLING PLAYER");
+                    player.takeDamage(10000);
+                }
+                default: {
+                    System.out.println("INVALID CHOICE");
+                }
+            }
+        }
+
+
+    public void action(Entity entity, Random random) {
+        System.out.println("Ally " + ally.getName() + "'s turn");
+        if (entity.getEntityType() == EntityType.ALLY) {
+           switch (random.nextInt(1, 3)) {
+               case 2: {
+                   if (ally.healCounter > 2){
+                       System.out.println("Out of Heals!");
+                       break;
+                   }
+                   System.out.println("Ally " + ally.getName() + " Heals!");
+                   ally.heal(20);
+                   ally.healCounter++;
+                   System.out.println("Ally " + ally.getName() + " Health: " + ally.getHealth());
+                   break;
+               }
+               default: {
+                   System.out.println("Ally " + ally.getName() + " attacks!");
+                   enemyTeam.getFirst().takeDamage(player.getAttackDamage());
+                   System.out.println( enemyTeam.getFirst().getName() + " health: " + enemyTeam.getFirst().getHealth());
+                   break;
+               }
+           }
+        }
+
+    }
 }
+
+
+
