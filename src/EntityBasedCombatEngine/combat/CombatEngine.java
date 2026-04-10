@@ -1,9 +1,10 @@
 package EntityBasedCombatEngine.combat;
 
-import EntityBasedCombatEngine.entity.Entity;
-import EntityBasedCombatEngine.entity.EntityType;
-import EntityBasedCombatEngine.entity.TestAlly;
-import EntityBasedCombatEngine.entity.TestPlayer;
+import EntityBasedCombatEngine.entity.*;
+import EntityBasedCombatEngine.entity.entities.TestAlly;
+import EntityBasedCombatEngine.entity.entities.TestBoss;
+import EntityBasedCombatEngine.entity.entities.TestEnemy;
+import EntityBasedCombatEngine.entity.entities.TestPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +21,8 @@ public class CombatEngine {
     List<Entity> initialized = new ArrayList<>();
     TestPlayer player;
     TestAlly ally;
-    Entity enemy;
-    Entity boss;
+    TestEnemy enemy;
+    TestBoss boss;
 
 
 
@@ -30,8 +31,9 @@ public class CombatEngine {
     /**
      *  Actually runs the combat
      *
-     * @param entities
-     * @param scanner
+     * @param entities Entities in the Game
+     * @param scanner Used for inputs
+     * @param random Random Number Gen
      */
     public void startCombat(List<Entity> entities, Scanner scanner, Random random) {
         initialize(entities);
@@ -49,42 +51,9 @@ public class CombatEngine {
     }
 
     /**
-     * Function -> To check if the Player team or the Enemy team is alive.
-     *     <P>
-     *     Details: The loop goes through each {@link Entity} and sorts them into teams.
-     *     Player team consists of {@link EntityType#PLAYER} and {@link EntityType#ALLY} while Enemy {@link EntityType#ENEMY} and or {@link EntityType#BOSS},
-     *     Then checks if whether each entity in the team is alive or not.
-     * */
-    public boolean combatCondition() {
-        int teamSize;
-        int counter = 0;
-
-        if (!player.isAlive()){
-            return false;
-        }
-
-        // Checks each entity on enemy team
-        for (Entity enemyTeamEntity : enemyTeam) {
-            teamSize = enemyTeam.size();
-            System.out.println("*TESTING* " + "Counter(after isAlive check(enemy)): " + counter);
-            System.out.println("*TESTING* " + "Checking: " + enemyTeamEntity.getName());
-            if (!enemyTeamEntity.isAlive()){
-                counter++;
-                System.out.println("*TESTING* " + "Counter(after isAlive check(enemy)): " + counter);
-                if (counter == teamSize){
-                    System.out.println("ENEMY TEAM DEAD");
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
-    /**
      *  Choices for the player
      *
-     * @param scanner
+     * @param scanner Used for inputs
      */
     private void choice(Scanner scanner) {
         System.out.println("Player " + player.getName()  + "'s turn");
@@ -123,40 +92,35 @@ public class CombatEngine {
     /**
      *  A Random int decides if to attack or to heal
      *
-     * @param entity
-     * @param random
+     * @param entity Used for who is it?
+     * @param random Random Number Gen
      */
     private void action(Entity entity, Random random) {
         System.out.println("Ally " + ally.getName() + "'s turn");
         if (entity.getEntityType() == EntityType.ALLY) {
-           switch (random.nextInt(1, 3)) {
-               case 2: {
-                   if (ally.healCounter > 2){
-                       System.out.println("Out of Heals!");
-                       break;
-                   }
-                   System.out.println("Ally " + ally.getName() + " Heals!");
-                   ally.heal(20);
-                   ally.healCounter++;
-                   System.out.println("Ally " + ally.getName() + " Health: " + ally.getHealth());
-                   break;
-               }
-               default: {
-                   System.out.println("Ally " + ally.getName() + " attacks!");
-                   enemyTeam.getFirst().takeDamage(player.getAttackDamage());
-                   System.out.println( enemyTeam.getFirst().getName() + " health: " + enemyTeam.getFirst().getHealth());
-                   break;
-               }
-           }
+            if (random.nextInt(1, 3) == 2) {
+                if (ally.healCounter > 2) {
+                    System.out.println("Out of Heals!");
+                    return;
+                }
+                System.out.println("Ally " + ally.getName() + " Heals!");
+                ally.heal(20);
+                ally.healCounter++;
+                System.out.println("Ally " + ally.getName() + " Health: " + ally.getHealth());
+            } else {
+                System.out.println("Ally " + ally.getName() + " attacks!");
+                enemyTeam.getFirst().takeDamage(player.getAttackDamage());
+                System.out.println(enemyTeam.getFirst().getName() + " health: " + enemyTeam.getFirst().getHealth());
+            }
         }
     }
 
     /**
-     *  Actually runs the combat
+     * Initializes and sorts entities
      *
-     * @param entities
+     * @param entities Entities in the Game
      */
-    public List<Entity> initialize(List<Entity> entities) {
+    public void initialize(List<Entity> entities) {
         for (Entity entity : entities) {
             switch (entity.getEntityType()) {
                 case PLAYER -> {
@@ -172,13 +136,13 @@ public class CombatEngine {
                     playerTeam.add(ally);
                 }
                 case ENEMY -> {
-                    enemy = new Entity(entity.getName(), entity.getHealth(), entity.getAttackDamage(), EntityType.ENEMY);
+                    enemy = new TestEnemy(entity.getName(), entity.getHealth(), entity.getAttackDamage(), EntityType.ENEMY);
                     System.out.println("*TESTING* " + entity.getName() + " added!");
                     initialized.add(entity);
                     enemyTeam.add(enemy);
                 }
                 case BOSS -> {
-                    boss = new Entity(entity.getName(), entity.getHealth(), entity.getAttackDamage(), EntityType.BOSS);
+                    boss = new TestBoss(entity.getName(), entity.getHealth(), entity.getAttackDamage(), EntityType.BOSS);
                     System.out.println("*TESTING* " + entity.getName() + " added!");
                     initialized.add(boss);
                     enemyTeam.add(boss);
@@ -187,7 +151,39 @@ public class CombatEngine {
             }
         }
         System.out.println("*TESTING* Sorting complete! PlayerTeam: " + playerTeam.size() + " | EnemyTeam: " + enemyTeam.size());
-        return initialized;
+    }
+
+    /**
+     * Function -> To check if the Player team or the Enemy team is alive.
+     *     <P>
+     *     Details: The loop goes through each {@link Entity} and sorts them into teams.
+     *     Player team consists of {@link EntityType#PLAYER} and {@link EntityType#ALLY} while Enemy {@link EntityType#ENEMY} and or {@link EntityType#BOSS},
+     *     Then checks if whether each entity in the team is alive or not.
+     * */
+    public boolean combatCondition() {
+        int teamSize;
+        int counter = 0;
+
+        if (!player.isAlive()){
+            return false;
+        }
+
+        // Checks each entity on enemy team
+        for (Entity enemyTeamEntity : enemyTeam) {
+            teamSize = enemyTeam.size();
+            System.out.println("*TESTING* " + "Counter(after isAlive check(enemy)): " + counter);
+            System.out.println("*TESTING* " + "Checking: " + enemyTeamEntity.getName());
+            if (!enemyTeamEntity.isAlive()){
+                counter++;
+                System.out.println("*TESTING* " + "Counter(after isAlive check(enemy)): " + counter);
+                if (counter == teamSize){
+                    System.out.println("ENEMY TEAM DEAD");
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }
 

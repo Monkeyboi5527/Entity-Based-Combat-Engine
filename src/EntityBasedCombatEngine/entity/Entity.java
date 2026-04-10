@@ -1,8 +1,5 @@
 package EntityBasedCombatEngine.entity;
 
-import java.util.Random;
-import java.util.Scanner;
-
 /**
  * A combat participant (player, enemy, NPC). Holds stats, components, and active effects.
  */
@@ -66,15 +63,5 @@ public class Entity implements Component {
     @Override
     public EntityType getEntityType() {
         return entityType;
-    }
-
-    @Override
-    public int choice(Scanner scanner) {
-        return 0;
-    }
-
-    @Override
-    public int action(Random random) {
-        return 0;
     }
 }
