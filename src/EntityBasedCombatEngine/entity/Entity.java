@@ -19,7 +19,7 @@ public class Entity implements Component {
         this.entityType = entityType;
     }
 
-    // Getters and Display
+    // Getters
     public String getName() {
         return name;
     }
@@ -32,6 +32,7 @@ public class Entity implements Component {
         return attackDamage;
     }
 
+    // For Debug Currently
     public void display() {
         System.out.println("Name: " + name);
         System.out.println("Health: " + health);

@@ -4,6 +4,7 @@ import EntityBasedCombatEngine.entity.Entity;
 import EntityBasedCombatEngine.entity.EntityType;
 
 public class TestPlayer extends Entity {
+    //Max of 2 Heals
     public int healCounter = 0;
 
     public TestPlayer(String name, int health, int attackDamage, EntityType entityType) {
@@ -15,7 +16,7 @@ public class TestPlayer extends Entity {
         health = health - damage;
         if (health <= 0) {
             System.out.println("Player " + name + " is dead");
-            System.out.println("\uD83D\uDC80DEFEAT\uD83D\uDC80");
+            System.out.println("\uD83D\uDC80DEFEAT\uD83D\uDC80"); //Internally handles death message
         }
     }
 

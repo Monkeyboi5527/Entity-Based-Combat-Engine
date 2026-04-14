@@ -124,28 +124,24 @@ public class CombatEngine {
         for (Entity entity : entities) {
             switch (entity.getEntityType()) {
                 case PLAYER -> {
-                    player = new TestPlayer(entity.getName(), entity.getHealth(), entity.getAttackDamage(), EntityType.PLAYER);
-                    System.out.println("*TESTING* " + entity.getName() + " added!");
-                    initialized.add(player);
-                    playerTeam.add(player);
-                }
-                case ALLY -> {
-                    ally = new TestAlly(entity.getName(), entity.getHealth(), entity.getAttackDamage(), EntityType.ALLY);
-                    System.out.println("*TESTING* " + entity.getName() + " added!");
-                    initialized.add(ally);
-                    playerTeam.add(ally);
-                }
-                case ENEMY -> {
-                    enemy = new TestEnemy(entity.getName(), entity.getHealth(), entity.getAttackDamage(), EntityType.ENEMY);
                     System.out.println("*TESTING* " + entity.getName() + " added!");
                     initialized.add(entity);
-                    enemyTeam.add(enemy);
+                    playerTeam.add(entity);
+                }
+                case ALLY -> {
+                    System.out.println("*TESTING* " + entity.getName() + " added!");
+                    initialized.add(entity);
+                    playerTeam.add(entity);
+                }
+                case ENEMY -> {
+                    System.out.println("*TESTING* " + entity.getName() + " added!");
+                    initialized.add(entity);
+                    enemyTeam.add(entity);
                 }
                 case BOSS -> {
-                    boss = new TestBoss(entity.getName(), entity.getHealth(), entity.getAttackDamage(), EntityType.BOSS);
                     System.out.println("*TESTING* " + entity.getName() + " added!");
-                    initialized.add(boss);
-                    enemyTeam.add(boss);
+                    initialized.add(entity);
+                    enemyTeam.add(entity);
                 }
                 default -> System.out.println("*TESTING* SOMETHING WENT WRONG");
             }
@@ -184,6 +180,19 @@ public class CombatEngine {
         }
 
         return true;
+    }
+
+    public Entity getPlayer() {
+        return playerTeam.stream()
+                .filter(e -> e.getEntityType() == EntityType.PLAYER)
+                .findFirst()
+                .orElse(null);
+    }
+
+    private List<Entity> getAliveEnemies() {
+        return enemyTeam.stream()
+                .filter(Entity::isAlive)
+                .toList();
     }
 }
 
