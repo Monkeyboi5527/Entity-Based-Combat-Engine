@@ -12,6 +12,8 @@ public class Entity implements Component {
     protected int attackDamage;
     EntityType entityType;
 
+    public int healCounter = 0;
+
     public Entity(String name, int health, int attackDamage, EntityType entityType) {
         this.name = name;
         this.health = health;
@@ -48,6 +50,7 @@ public class Entity implements Component {
     @Override
     public void heal(int amount) {
         health = health + amount;
+        healCounter++;
     }
 
     @Override

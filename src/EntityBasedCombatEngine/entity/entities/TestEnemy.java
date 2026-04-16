@@ -17,4 +17,8 @@ public class TestEnemy extends Entity {
         }
     }
 
+    @Override
+    public void heal(int amount) {
+        super.heal(amount);
+    }
 }

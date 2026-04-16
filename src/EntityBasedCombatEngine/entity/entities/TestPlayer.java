@@ -4,8 +4,7 @@ import EntityBasedCombatEngine.entity.Entity;
 import EntityBasedCombatEngine.entity.EntityType;
 
 public class TestPlayer extends Entity {
-    //Max of 2 Heals
-    public int healCounter = 0;
+
 
     public TestPlayer(String name, int health, int attackDamage, EntityType entityType) {
         super(name, health, attackDamage, entityType);
@@ -23,7 +22,5 @@ public class TestPlayer extends Entity {
     @Override
     public void heal(int amount) {
         super.heal(amount);
-        healCounter++;
     }
-
 }
