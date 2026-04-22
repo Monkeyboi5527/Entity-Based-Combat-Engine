@@ -13,6 +13,8 @@ import java.util.Scanner;
 
 /**
  * The main controller. Runs the combat loop start to finish.
+ * Handles initialization, turn order, actions, and win/loss conditions
+ * for a team-based combat system.
  */
 public class CombatEngine {
     List<Entity> enemyTeam = new ArrayList<>();
