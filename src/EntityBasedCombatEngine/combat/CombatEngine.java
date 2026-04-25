@@ -114,7 +114,11 @@ public class CombatEngine {
                     target.takeDamage(150);
                     System.out.println("----------------------------------");
                     break;
-                }
+                } case 4: {
+                    System.out.println("*TESTING* SUPER HEALING");
+                    player.setHealCounter(0);
+                    player.heal(1000);
+            }
                 default: {
                     System.out.println("INVALID CHOICE");
                 }

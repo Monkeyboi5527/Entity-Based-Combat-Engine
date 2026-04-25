@@ -8,6 +8,7 @@ public interface Component {
     //Don't have any ideas for components at this time
         void test();
         void heal(int amount);
+        void setHealCounter(int  amount);
         void takeDamage(int damage);
         boolean isAlive();
         EntityType getEntityType();

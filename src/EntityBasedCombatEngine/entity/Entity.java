@@ -54,6 +54,11 @@ public class Entity implements Component {
     }
 
     @Override
+    public void setHealCounter(int amount) {
+        healCounter = amount;
+    }
+
+    @Override
     public void takeDamage(int damage) {
         health = health - damage;
         if (health <= 0) System.out.println(name + " is dead");
