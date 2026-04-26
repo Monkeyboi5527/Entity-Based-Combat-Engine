@@ -13,7 +13,7 @@ void main() {
 
 
     // *TESTING*
-    TestPlayer testPlayer = new TestPlayer("testPlayer", 100, 15, EntityType.PLAYER);
+    TestPlayer testPlayer = new TestPlayer("testPlayer", 100000, 15, EntityType.PLAYER);
     TestAlly testAlly = new TestAlly("testAlly", 80, 10, EntityType.ALLY);
     TestAlly testAlly2 = new TestAlly("testAlly2", 100, 15, EntityType.ALLY);
     TestEnemy testEnemy = new TestEnemy("testEnemy", 80, 10, EntityType.ENEMY);

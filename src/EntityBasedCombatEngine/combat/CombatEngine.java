@@ -40,7 +40,7 @@ public class CombatEngine {
     public void startCombat(List<Entity> entities, Scanner scanner, Random random) {
         initialize(entities);
 
-        while (true) {
+        while (!isCombatOver()) {
 
             // PLAYER TURN
             for (Entity entity : playerTeam) {
@@ -96,7 +96,7 @@ public class CombatEngine {
                     break;
                 }
                 case 2: {
-                    if (player.healCounter > 2){
+                    if (player.healCounter >= 2){
                         System.out.println("Out of Heals!");
                         System.out.println("----------------------------------");
                         break;
@@ -117,7 +117,11 @@ public class CombatEngine {
                 } case 4: {
                     System.out.println("*TESTING* SUPER HEALING");
                     player.setHealCounter(0);
+                    System.out.println(player.getName() + " Heals!");
                     player.heal(1000);
+                    System.out.println(player.getName() + " Health: " + player.getHealth());
+                    System.out.println("----------------------------------");
+                    break;
             }
                 default: {
                     System.out.println("INVALID CHOICE");
@@ -138,7 +142,7 @@ public class CombatEngine {
                 Entity target = getFirstAliveEnemy();
                 System.out.println(entity.getName() + "'s turn");
                 if (random.nextInt(1, 3) == 2) {
-                    if (entity.healCounter > 2) {
+                    if (entity.healCounter >= 2) {
                         System.out.println("Out of Heals!");
                         System.out.println("----------------------------------");
                         break;
@@ -159,7 +163,7 @@ public class CombatEngine {
             case ENEMY -> {
                 System.out.println(entity.getName() + "'s turn");
                 if (random.nextInt(1, 3) == 2) {
-                    if (entity.healCounter > 2) {
+                    if (entity.healCounter >= 2) {
                         System.out.println("Out of Heals!");
                         System.out.println("----------------------------------");
                         break;
@@ -181,7 +185,7 @@ public class CombatEngine {
                 // MORE IMPLEMENTATIONS LATER
                 System.out.println(entity.getName() + "'s turn");
                 if (random.nextInt(1, 3) == 2) {
-                    if (entity.healCounter > 2) {
+                    if (entity.healCounter >= 2) {
                         System.out.println("Out of Heals!");
                         System.out.println("----------------------------------");
                         break;
@@ -276,6 +280,11 @@ public class CombatEngine {
 
     private Entity getFirstAliveEnemy() {
         return getAliveEnemies().stream().findFirst().orElse(null);
+    }
+
+    private Entity getRandomAliveEnemy(Random random) {
+        List<Entity> alive = getAliveEnemies();
+        return alive.isEmpty() ? null : alive.get(random.nextInt(alive.size()));
     }
 
     private void removeDeadEntities() {
